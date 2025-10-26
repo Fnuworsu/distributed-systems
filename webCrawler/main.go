@@ -29,7 +29,6 @@ func Crawl(url string, depth int, fetcher Fetcher) {
 
 		body, urls, err := fetcher.Fetch(url)
 		if err != nil {
-			fmt.Println(err)
 			return
 		}
 
