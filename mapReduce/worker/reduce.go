@@ -1,30 +1,21 @@
 package worker
 
-type Emit struct {
-	Key rune
-	Val int
-}
+func Reducer(shuffled map[string][]int) map[string]int {
+	reduced := make(map[string]int)
 
-func reducer(mapp []map[rune]int) []*Emit {
-	resMap := make(map[rune]int)
+	sum := func(arr []int) int {
+		res := 0
 
-	for _, item := range mapp {
-		for key,val := range item {
-			_,ok := resMap[key]
-
-			if ok {
-				resMap[key] += val
-			} else {
-				resMap[key] = val
-			}
+		for _, n := range arr {
+			res += n
 		}
+
+		return res
 	}
 
-	var resEmit []*Emit
-
-	for key,val := range resMap {
-		resEmit = append(resEmit, &Emit{Key: key, Val: val})
+	for word, counts := range shuffled {
+		reduced[word] = sum(counts)
 	}
 
-	return resEmit
+	return reduced
 }

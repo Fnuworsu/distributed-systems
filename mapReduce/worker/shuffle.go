@@ -1,11 +1,14 @@
 package worker
 
-import "sort"
+type Pair struct {
+	Key string
+	Val int
+}
 
-func shuffle(emitted []*Emit) []*Emit {
-	sort.Slice(emitted, func(i, j int) bool {
-		return emitted[i].Val < emitted[j].Val
-	})
-
-	return emitted
+func Shuffle(mappedOutputs []map[string]int, outCh chan <- *Pair) {
+	for _, mapped := range mappedOutputs {
+		for word, count := range mapped {
+			outCh <- &Pair{Key: word, Val: count}
+		}
+	}
 }

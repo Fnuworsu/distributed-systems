@@ -1,45 +1,40 @@
-package coordinator
+package main
 
 import (
 	"bufio"
 	"os"
 	"strings"
 )
-
 const NUM_OF_WORKERS = 3
 
-func getInput(filepath string) ([]string, error) {
+type Coordinator struct{}
+
+func (coord *Coordinator) GetInput(filepath string, result *[]string) error {
 	file, err := os.Open(filepath)
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	defer file.Close()
 
 	scanner := bufio.NewScanner(file)
-	var res []string
 
 	for scanner.Scan() {
 		line := scanner.Text()
-		res = append(res, strings.TrimSpace(line))
+		*result = append(*result, strings.TrimSpace(line))
 	}
 
 	err = scanner.Err()
 
 	if err != nil {
-		return nil, err
+		return err
 	}
 
-	return res, nil
+	return nil
 }
 
-func chunk(input []string, workerId int) (l,r int) {
-	/*
-	 * number of workers = w
-	 * len of input = n
-	 * chunk_size = w / n
-	*/
+func (coord *Coordinator) Chunk(input []string, workerId int, l *int, r *int) error {
 	inputLen := len(input)
 	chunk_size := inputLen / NUM_OF_WORKERS
 	start := workerId * chunk_size
@@ -51,7 +46,8 @@ func chunk(input []string, workerId int) (l,r int) {
 		end = start + chunk_size
 	}
 
-	return start, end
+	*l, *r = start, end
+	return nil
 }
 
-// TODO: Implement worker function
+

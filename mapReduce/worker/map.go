@@ -1,17 +1,19 @@
 package worker
 
-func mapper(word string) map[rune]int {
-	mapp := make(map[rune]int)
+import "strings"
 
-	for _,char := range word {
-		_, ok := mapp[char]
+func Mapper(line string) map[string]int {
+	mapped := make(map[string]int)
+
+	for _,word := range strings.Split(line, "") {
+		_,ok := mapped[word]
 
 		if ok {
-			mapp[char]++
+			mapped[word]++
 		} else {
-			mapp[char] = 1
+			mapped[word] = 1
 		}
 	}
 
-	return mapp
+	return mapped
 }
