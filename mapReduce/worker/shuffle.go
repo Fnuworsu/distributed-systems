@@ -1,14 +1,13 @@
 package worker
 
-type Pair struct {
-	Key string
-	Val int
-}
+func Shuffle(mappedOutputs []map[string]int, ch chan map[string][]int) {
+	shuffled := make(map[string][]int)
 
-func Shuffle(mappedOutputs []map[string]int, outCh chan <- *Pair) {
 	for _, mapped := range mappedOutputs {
 		for word, count := range mapped {
-			outCh <- &Pair{Key: word, Val: count}
+			shuffled[word] = append(shuffled[word], count)
 		}
 	}
+
+	ch <- shuffled
 }

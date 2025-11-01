@@ -2,7 +2,7 @@ package worker
 
 import "strings"
 
-func Mapper(line string) map[string]int {
+func Mapper(line string, ch chan map[string]int) {
 	mapped := make(map[string]int)
 
 	for _,word := range strings.Split(line, "") {
@@ -15,5 +15,5 @@ func Mapper(line string) map[string]int {
 		}
 	}
 
-	return mapped
+	ch <- mapped
 }
