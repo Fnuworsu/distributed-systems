@@ -2,18 +2,14 @@ package worker
 
 import "strings"
 
-func Mapper(line string, ch chan map[string]int) {
-	mapped := make(map[string]int)
-
-	for _,word := range strings.Split(line, "") {
-		_,ok := mapped[word]
+func Mapper(line string, mapped *map[string]int) {
+	for _,word := range strings.Split(line, " ") {
+		_,ok := (*mapped)[word]
 
 		if ok {
-			mapped[word]++
+			(*mapped)[word]++
 		} else {
-			mapped[word] = 1
+			(*mapped)[word] = 1
 		}
 	}
-
-	ch <- mapped
 }

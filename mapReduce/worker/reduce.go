@@ -1,8 +1,6 @@
 package worker
 
-func Reducer(shuffled map[string][]int, ch chan map[string]int) {
-	reduced := make(map[string]int)
-
+func Reducer(shuffled map[string][]int, reduced *map[string]int) {
 	sum := func(arr []int) int {
 		res := 0
 
@@ -14,8 +12,6 @@ func Reducer(shuffled map[string][]int, ch chan map[string]int) {
 	}
 
 	for word, counts := range shuffled {
-		reduced[word] = sum(counts)
+		(*reduced)[word] = sum(counts)
 	}
-
-	ch <- reduced
 }
