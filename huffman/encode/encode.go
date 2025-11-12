@@ -37,13 +37,13 @@ type Node struct {
 	Data byte
 }
 
-func dfs(root *Node, ans *string, curr string) {
+func dfs(root *Node, ans *map[byte]string, curr string) {
 	if root == nil {
 		return
 	}
 
 	if root.Left == nil && root.Right == nil {
-		*ans += curr
+		(*ans)[root.Data] = curr 
 	}
 	
 	dfs(root.Left, ans, curr + "0")
@@ -63,10 +63,11 @@ func BuildHeap(s string) *MinHeap {
 	}
 
 	pq := MinHeap(curr)
+	heap.Init(&pq)
 	return &pq
 }
 
-func BuildHuffmanTree(pq *MinHeap) (string, *Node) {
+func BuildHuffmanTree(pq *MinHeap) (map[byte]string, *Node) {
 	for len(*pq) > 1 {
 		l := heap.Pop(pq).(*Node)
 		r := heap.Pop(pq).(*Node)
@@ -76,10 +77,18 @@ func BuildHuffmanTree(pq *MinHeap) (string, *Node) {
 	}
 
 	root := heap.Pop(pq).(*Node)
-	var (
-		ans, curr string
-	)
+	ans := make(map[byte]string)
 
-	dfs(root, &ans, curr)
+	dfs(root, &ans, "")
 	return ans, root
+}
+
+func EncodeString(s string, codes map[byte]string) string {
+	var encoded string
+
+	for i := 0; i < len(s); i++ {
+		encoded += codes[s[i]]
+	}
+
+	return  encoded
 }

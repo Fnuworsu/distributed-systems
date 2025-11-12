@@ -11,8 +11,9 @@ func main() {
 
 	pq := encode.BuildHeap(s)
 	ans, root := encode.BuildHuffmanTree(pq)
-	res := decode.DecodeString(ans, root)
+	encoded := encode.EncodeString(s, ans)
+	res := decode.DecodeString(encoded, root)
 
-	fmt.Println("Encoded", ans)
+	fmt.Println("Encoded", encoded)
 	fmt.Println("Decoded", res)
 }
