@@ -72,8 +72,10 @@ func (n *TreeNode) Insert(root *Node, val int32) *Node{
 		return &Node{Val: val, High: 1}
 	} else if val < root.Val {
 		root.Left = n.Insert(root.Left, val)
-	} else {
+	} else if val > root.Val{
 		root.Right = n.Insert(root.Right, val)
+	} else {
+		return root
 	}
 
 	root.High = 1 + max(n.Height(root.Left), n.Height(root.Right))
